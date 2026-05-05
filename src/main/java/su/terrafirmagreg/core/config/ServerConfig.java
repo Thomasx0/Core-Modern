@@ -47,6 +47,9 @@ public final class ServerConfig {
     public final ForgeConfigSpec.IntValue sandDecumulateChance;
     public final ForgeConfigSpec.BooleanValue enableSnowCorrection;
     public final ForgeConfigSpec.IntValue snowMaxAccumulationOnUpdate;
+    /** When {@code true} with {@link #enableSnowCorrection}, defers heavy snow correction (see utils {@code SnowCorrectionQueue}). */
+    public final ForgeConfigSpec.BooleanValue snowCorrectionQueue;
+    public final ForgeConfigSpec.IntValue snowCorrectionQueueMaxChunksPerTick;
 
     ServerConfig(ForgeConfigSpec.Builder builder) {
         builder.push("hang_glider");
@@ -128,6 +131,14 @@ public final class ServerConfig {
         snowMaxAccumulationOnUpdate = builder
                 .comment("The maximum amount of snow update to apply for each correction tick")
                 .defineInRange("snowMaxAccumulationOnUpdate", 256, 1, Integer.MAX_VALUE);
+        snowCorrectionQueue = builder
+                .comment("""
+                        Defer heavy snow correction (>4000 tick gaps between chunk snow ticks) to a FIFO queue drained at\s
+                        the end of each server tick. Requires enableSnowCorrection. Default: false.""")
+                .define("snowCorrectionQueue", false);
+        snowCorrectionQueueMaxChunksPerTick = builder
+                .comment("Maximum overworld chunks drained from the snow correction queue each server tick when snowCorrectionQueue is enabled.")
+                .defineInRange("snowCorrectionQueueMaxChunksPerTick", 50, 1, 10_000);
         builder.pop();
     }
 
