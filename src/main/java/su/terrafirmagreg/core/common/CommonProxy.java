@@ -5,6 +5,7 @@ import static appeng.api.upgrades.Upgrades.add;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialRegistryEvent;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.PostMaterialEvent;
+import com.gregtechceu.gtceu.api.data.worldgen.GTOreDefinition;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
@@ -32,6 +33,7 @@ import su.terrafirmagreg.core.common.data.tfgt.TFGMultiMachines;
 import su.terrafirmagreg.core.common.data.tfgt.TFGRecipeConditions;
 import su.terrafirmagreg.core.common.data.tfgt.TFGTRecipeTypes;
 import su.terrafirmagreg.core.common.entity.ai.TFGBrain;
+import su.terrafirmagreg.core.common.map.TFGOreVeinDefinitions;
 import su.terrafirmagreg.core.common.tfgt.material.TFGMaterialHandler;
 import su.terrafirmagreg.core.compat.ad_astra.AdAstraCompat;
 import su.terrafirmagreg.core.compat.ae2.AE2Compat;
@@ -87,6 +89,7 @@ public class CommonProxy {
 
         bus.addGenericListener(SoundEntry.class, this::registerSounds);
         bus.addGenericListener(MachineDefinition.class, this::registerMachines);
+        bus.addGenericListener(GTOreDefinition.class, this::registerOreVeins);
         bus.addGenericListener(GTRecipeType.class, this::registerRecipeTypes);
         bus.addGenericListener(RecipeConditionType.class, this::registerRecipeConditions);
 
@@ -140,6 +143,10 @@ public class CommonProxy {
     public void registerMachines(GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {
         TFGMachines.init();
         TFGMultiMachines.init();
+    }
+
+    public void registerOreVeins(GTCEuAPI.RegisterEvent<ResourceLocation, GTOreDefinition> event) {
+        TFGOreVeinDefinitions.register(event);
     }
 
     public void registerRecipeTypes(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {

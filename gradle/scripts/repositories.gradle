@@ -83,5 +83,14 @@ repositories {
             includeGroup 'dev.toma.configuration'
         }
     }
+    maven {
+        name = "Xaero's Maven"
+        url = 'https://chocolateminecraft.com/maven'
+        content {
+            includeGroup 'xaero.minimap'
+            includeGroup 'xaero.map'
+            includeGroup 'xaero.lib'
+        }
+    }
 
 }

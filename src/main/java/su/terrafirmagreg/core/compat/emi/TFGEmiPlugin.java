@@ -159,6 +159,14 @@ public class TFGEmiPlugin implements EmiPlugin {
             // return onLegacyWorldgen() ? legacyVein : !legacyVein;
             return onLegacyWorldgen() == legacyVein;
         }).forEach(fluidDef -> emiRegistry.addRecipe(new FluidVeinRecipe(fluidDef)));
+
+        // GT registers ore vein diagrams for every CLIENT_ORE_VEINS entry; TFG has its own category above.
+        emiRegistry.removeRecipes(recipe -> {
+            ResourceLocation id = recipe.getId();
+            return id != null
+                    && TFGCore.MOD_ID.equals(id.getNamespace())
+                    && id.getPath().startsWith("/ore_vein_diagram/");
+        });
     }
 
     private static final Set<ResourceLocation> LEGACY_FLUID_VEINS = Set.of(

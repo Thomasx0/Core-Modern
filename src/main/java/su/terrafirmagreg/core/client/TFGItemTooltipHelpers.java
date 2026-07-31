@@ -41,10 +41,8 @@ import su.terrafirmagreg.core.common.block.palmtree.PalmTreeSaplingBlock;
 import su.terrafirmagreg.core.common.capability.ILargeEgg;
 import su.terrafirmagreg.core.common.capability.LargeEggCapability;
 import su.terrafirmagreg.core.common.data.TFGFluids;
-import su.terrafirmagreg.core.common.event.AdvancedOreProspectorEventHelper;
-import su.terrafirmagreg.core.common.event.NormalOreProspectorEventHelper;
-import su.terrafirmagreg.core.common.event.OreProspectorEvent;
-import su.terrafirmagreg.core.common.event.WeakOreProspectorEventHelper;
+import su.terrafirmagreg.core.common.map.OreProspectorScanner.ProspectTier;
+import su.terrafirmagreg.core.common.map.ProspectMode;
 import su.terrafirmagreg.core.config.TFGConfig;
 
 @Mod.EventBusSubscriber(modid = TFGCore.MOD_ID, value = Dist.CLIENT)
@@ -69,53 +67,27 @@ public class TFGItemTooltipHelpers {
             addMachineTooltip(tooltip, TFGConfig.SERVER.COMPOSTER_STRESS_LIMIT.get(), TFGConfig.SERVER.COMPOSTER_RPM_LIMIT.get());
         }
 
-        // Check Weak helpers
-        for (WeakOreProspectorEventHelper helper : OreProspectorEvent.getWeakOreProspectorListHelper()) {
-            if (stack.is(helper.getItemTag())) {
-                tooltip.add(Component.translatable(
-                        "tfg.tooltip.ore_prospector_stats",
-                        helper.getLength(),
-                        (int) (helper.getHalfWidth() * 2),
-                        (int) (helper.getHalfHeight() * 2)).withStyle(ChatFormatting.YELLOW));
-                return;
+        for (ProspectTier tier : ProspectTier.all()) {
+            if (!stack.is(tier.itemTag())) {
+                continue;
             }
-        }
-
-        // Check Normal helpers
-        for (NormalOreProspectorEventHelper helper : OreProspectorEvent.getNormalOreProspectorListHelper()) {
-            if (stack.is(helper.getItemTag())) {
-                tooltip.add(Component.translatable(
-                        "tfg.tooltip.ore_prospector_stats",
-                        helper.getLength(),
-                        (int) (helper.getHalfWidth() * 2),
-                        (int) (helper.getHalfHeight() * 2)).withStyle(ChatFormatting.YELLOW));
+            tooltip.add(Component.translatable(
+                    "tfg.tooltip.ore_prospector_stats",
+                    tier.length(),
+                    (int) (tier.halfWidth() * 2),
+                    (int) (tier.halfHeight() * 2)).withStyle(ChatFormatting.YELLOW));
+            if (tier.mode() != ProspectMode.NAMES_ONLY) {
                 tooltip.add(Component.translatable("tfg.tooltip.ore_prospector_count")
                         .withStyle(ChatFormatting.YELLOW));
-                return;
             }
-        }
-
-        // Check Advanced helpers
-        for (AdvancedOreProspectorEventHelper helper : OreProspectorEvent.getAdvancedOreProspectorListHelper()) {
-            if (stack.is(helper.getItemTag())) {
-                // Determine the mode key based on centersOnly
-                String modeKey = helper.isCentersOnly()
+            if (tier.advancedTooltip()) {
+                String modeKey = tier.mapMarkers()
                         ? "tfg.tooltip.ore_prospector_mode_vein"
                         : "tfg.tooltip.ore_prospector_mode_block";
-
-                tooltip.add(Component.translatable(
-                        "tfg.tooltip.ore_prospector_stats",
-                        helper.getLength(),
-                        (int) (helper.getHalfWidth() * 2),
-                        (int) (helper.getHalfHeight() * 2)).withStyle(ChatFormatting.YELLOW));
-
-                tooltip.add(Component.translatable("tfg.tooltip.ore_prospector_count")
-                        .withStyle(ChatFormatting.YELLOW));
                 tooltip.add(Component.translatable("tfg.tooltip.ore_prospector_xray",
-                        Component.translatable(modeKey) // pass the localized "vein" or "per block"
-                ).withStyle(ChatFormatting.YELLOW));
-                return;
+                        Component.translatable(modeKey)).withStyle(ChatFormatting.YELLOW));
             }
+            return;
         }
 
         // Add Growth Time tooltip to saplings.

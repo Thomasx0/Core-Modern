@@ -123,6 +123,39 @@ public class OreVeinInfoRecipe implements EmiRecipe {
         }
     }
 
+    public String getVeinName() {
+        return ID;
+    }
+
+    public WeightedBlock[] getOres() {
+        return ores;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public double getDensity() {
+        return density;
+    }
+
+    public int getRarity() {
+        return rarity;
+    }
+
+    public int getMinY() {
+        return minY;
+    }
+
+    public int getMaxY() {
+        return maxY;
+    }
+
+    /** Max vertical distance from vein top to surface for TFC/GT indicator piles; {@code <= 1} means none. */
+    public int getIndicatorDepth() {
+        return indicatorDepth;
+    }
+
     @Override
     public EmiRecipeCategory getCategory() {
         return TFGEmiPlugin.ORE_VEIN_INFO;

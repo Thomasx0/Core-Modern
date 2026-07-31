@@ -30,11 +30,13 @@ import earth.terrarium.adastra.client.models.entities.vehicles.RocketModel;
 import earth.terrarium.adastra.client.renderers.entities.vehicles.RocketRenderer;
 
 import su.terrafirmagreg.core.TFGCore;
+import su.terrafirmagreg.core.client.map.TFGProspectMapLayer;
 import su.terrafirmagreg.core.client.screen.*;
 import su.terrafirmagreg.core.common.CommonProxy;
 import su.terrafirmagreg.core.common.data.*;
 import su.terrafirmagreg.core.common.data.blocks.*;
 import su.terrafirmagreg.core.common.data.items.TFGItems;
+import su.terrafirmagreg.core.common.map.TFGOreVeinDefinitions;
 import su.terrafirmagreg.core.common.particle.*;
 import su.terrafirmagreg.core.common.tfgt.machine.render.BouleRender;
 import su.terrafirmagreg.core.world.dimension_effects.BeneathEffects;
@@ -78,6 +80,9 @@ public class ClientProxy extends CommonProxy {
     @SubscribeEvent
     public void clientSetup(FMLClientSetupEvent evt) {
         evt.enqueueWork(() -> {
+            TFGProspectMapLayer.register();
+            TFGOreVeinDefinitions.syncClientOreVeins();
+
             // Fluid rendering
             ItemBlockRenderTypes.setRenderLayer(TFGFluids.MARS_WATER.getFlowing(), RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(TFGFluids.MARS_WATER.getSource(), RenderType.translucent());
