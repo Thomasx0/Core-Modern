@@ -23,10 +23,14 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.ComputeFovModifierEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.level.ChunkEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.config.ModConfigEvent;
 
 import su.terrafirmagreg.core.TFGCore;
 import su.terrafirmagreg.core.client.asphalt.AsphaltRoadColorHandlers;
@@ -38,6 +42,11 @@ import su.terrafirmagreg.core.common.entity.camels.TFCBactrianCamelModel;
 import su.terrafirmagreg.core.common.entity.camels.TFCBactrianCamelRenderer;
 import su.terrafirmagreg.core.common.food.nutrient.NutrientEffectsHandler;
 import su.terrafirmagreg.core.common.perf.SupportCache;
+import su.terrafirmagreg.core.compat.tfc.solar.SolarCalendarBackport;
+import su.terrafirmagreg.core.compat.tfc.solar.client.ConstellationsReloadListener;
+import su.terrafirmagreg.core.compat.tfc.solar.client.PlanetsReloadListener;
+import su.terrafirmagreg.core.compat.tfc.solar.client.StarsReloadListener;
+import su.terrafirmagreg.core.compat.tfc.solar.client.TFGSkyRenderer;
 
 @Mod.EventBusSubscriber(modid = TFGCore.MOD_ID, value = Dist.CLIENT)
 @OnlyIn(Dist.CLIENT)
@@ -92,6 +101,41 @@ public class ForgeClientEventListener {
                 }
             }
         }
+    }
+
+    public static void registerClientReloadListeners(RegisterClientReloadListenersEvent event) {
+        event.registerReloadListener(new StarsReloadListener());
+        event.registerReloadListener(new ConstellationsReloadListener());
+        event.registerReloadListener(new PlanetsReloadListener());
+    }
+
+    @SubscribeEvent
+    public static void onClientConfigReload(ModConfigEvent event) {
+        if (!(event instanceof ModConfigEvent.Reloading)) {
+            return;
+        }
+        if (event.getConfig().getType() != ModConfig.Type.CLIENT) {
+            return;
+        }
+        if (!SolarCalendarBackport.isEnabled()) {
+            return;
+        }
+        TFGSkyRenderer.rebuildStarBuffer();
+    }
+
+    @SubscribeEvent
+    public static void onClientTick(TickEvent.ClientTickEvent event) {
+        if (event.phase != TickEvent.Phase.END) {
+            return;
+        }
+        final Minecraft minecraft = Minecraft.getInstance();
+        if (!SolarCalendarBackport.isEnabled()) {
+            return;
+        }
+        if (minecraft.level == null || minecraft.player == null || minecraft.gameRenderer == null) {
+            return;
+        }
+        TFGSkyRenderer.tickConstellationHighlights(minecraft.level, minecraft.player, minecraft.gameRenderer.getMainCamera());
     }
 
     public static void registerColorHandlerBlocks(RegisterColorHandlersEvent.Block event) {

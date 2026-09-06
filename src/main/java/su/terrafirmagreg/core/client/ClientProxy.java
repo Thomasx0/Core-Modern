@@ -37,6 +37,7 @@ import su.terrafirmagreg.core.common.data.blocks.*;
 import su.terrafirmagreg.core.common.data.items.TFGItems;
 import su.terrafirmagreg.core.common.particle.*;
 import su.terrafirmagreg.core.common.tfgt.machine.render.BouleRender;
+import su.terrafirmagreg.core.compat.tfc.solar.meteor.client.FallingStarParticle;
 import su.terrafirmagreg.core.world.dimension_effects.BeneathEffects;
 import su.terrafirmagreg.core.world.dimension_effects.VenusEffects;
 
@@ -50,6 +51,7 @@ public class ClientProxy extends CommonProxy {
         bus.addListener(ForgeClientEventListener::registerColorHandlerBlocks);
         bus.addListener(ForgeClientEventListener::registerColorHandlerItems);
         bus.addListener(ForgeClientEventListener::registerRenderers);
+        bus.addListener(ForgeClientEventListener::registerClientReloadListeners);
     }
 
     @SubscribeEvent
@@ -72,6 +74,7 @@ public class ClientProxy extends CommonProxy {
         event.registerSpriteSet(TFGParticles.GEYSER_POOF.get(), GeyserPoofProvider::new);
         event.registerSpriteSet(TFGParticles.NOXIOUS_GAS.get(), NoxiousGasProvider::new);
         event.registerSpriteSet(TFGParticles.FISH_SCHOOL.get(), FishSchoolProvider::new);
+        event.registerSpriteSet(TFGParticles.FALLING_STAR.get(), FallingStarParticle.Provider::new);
     }
 
     @SuppressWarnings("removal")

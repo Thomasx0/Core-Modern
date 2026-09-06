@@ -1,5 +1,7 @@
 package su.terrafirmagreg.core.common.data;
 
+import com.mojang.serialization.Codec;
+
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -8,6 +10,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import su.terrafirmagreg.core.TFGCore;
+import su.terrafirmagreg.core.compat.tfc.solar.meteor.client.FallingStarParticleOptions;
 
 public class TFGParticles {
     public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister
@@ -51,6 +54,15 @@ public class TFGParticles {
             () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> LIGHT_MARS_WIND = PARTICLES.register("light_mars_wind",
             () -> new SimpleParticleType(false));
+
+    public static final RegistryObject<ParticleType<FallingStarParticleOptions>> FALLING_STAR = PARTICLES.register(
+            "falling_star",
+            () -> new ParticleType<>(false, FallingStarParticleOptions.DESERIALIZER) {
+                @Override
+                public Codec<FallingStarParticleOptions> codec() {
+                    return FallingStarParticleOptions.CODEC;
+                }
+            });
 
     public static void register(IEventBus bus) {
         PARTICLES.register(bus);

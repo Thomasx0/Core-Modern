@@ -5,6 +5,7 @@ import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -107,6 +108,18 @@ public class TFGNetworkHandler {
                 WorldgenVersionSyncPacket::decode,
                 WorldgenVersionSyncPacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        INSTANCE.registerMessage(
+                id(),
+                FallingStarSpawnPacket.class,
+                FallingStarSpawnPacket::encode,
+                FallingStarSpawnPacket::decode,
+                FallingStarSpawnPacket::handle);
+    }
+
+    public static void sendFallingStar(ServerLevel level, FallingStarSpawnPacket packet) {
+        for (ServerPlayer player : level.players()) {
+            INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), packet);
+        }
     }
 
     private static void sendToAllAround(Level level, BlockPos pos, Object packet) {

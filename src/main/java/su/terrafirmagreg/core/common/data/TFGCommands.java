@@ -12,6 +12,7 @@ import su.terrafirmagreg.core.common.command.DebugRecipeDump;
 import su.terrafirmagreg.core.common.command.DebugWorldgenVersions;
 import su.terrafirmagreg.core.common.command.ModifyNutrients;
 import su.terrafirmagreg.core.common.command.TFCDataDump;
+import su.terrafirmagreg.core.compat.tfc.solar.meteor.command.FallingStarDebugCommand;
 
 public class TFGCommands {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -20,6 +21,7 @@ public class TFGCommands {
                 .requires(c -> c.hasPermission(2));
         DebugRecipeDump.register(debug);
         DebugWorldgenVersions.register(debug);
+        FallingStarDebugCommand.register(debug);
 
         LiteralArgumentBuilder<CommandSourceStack> tfg = literal("tfg").then(debug);
         ModifyNutrients.register(tfg);

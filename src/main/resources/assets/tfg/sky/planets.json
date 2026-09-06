@@ -1,0 +1,189 @@
+{
+    "planets": [
+        {
+            "semiMajorAxis": 57.909,
+            "orbitalPeriodDays": 87.968,
+            "texture": "tfg:textures/sky/planets/mercury.png",
+            "scaleFactor": 0.1,
+            "name": "Mercury",
+            "diameterKm": 4879,
+            "isRetrograde": false,
+            "eclipticPlaneDegrees": 7.004
+        },
+        {
+            "semiMajorAxis": 108.21,
+            "orbitalPeriodDays": 224.695,
+            "texture": "tfg:textures/sky/planets/venus.png",
+            "scaleFactor": 0.1,
+            "name": "Venus",
+            "diameterKm": 12104,
+            "isRetrograde": false,
+            "eclipticPlaneDegrees": 3.395
+        },
+        {
+            "semiMajorAxis": 227.956,
+            "orbitalPeriodDays": 779.94,
+            "texture": "tfg:textures/sky/planets/mars.png",
+            "scaleFactor": 0.4,
+            "name": "Mars",
+            "diameterKm": 6792,
+            "isRetrograde": false,
+            "eclipticPlaneDegrees": 1.848
+        },
+        {
+            "semiMajorAxis": 778.479,
+            "orbitalPeriodDays": 4330.595,
+            "texture": "tfg:textures/sky/planets/jupiter.png",
+            "scaleFactor": 0.125,
+            "name": "Jupiter",
+            "diameterKm": 142984,
+            "isRetrograde": false,
+            "eclipticPlaneDegrees": 1.304
+        },
+        {
+            "semiMajorAxis": 1432.041,
+            "orbitalPeriodDays": 10746.94,
+            "texture": "tfg:textures/sky/planets/saturn.png",
+            "scaleFactor": 0.15,
+            "name": "Saturn",
+            "diameterKm": 120536,
+            "isRetrograde": false,
+            "eclipticPlaneDegrees": 2.486
+        },
+        {
+            "semiMajorAxis": 2867.043,
+            "orbitalPeriodDays": 30588.74,
+            "texture": "tfg:textures/sky/planets/uranus.png",
+            "scaleFactor": 0.4,
+            "name": "Uranus",
+            "diameterKm": 51118,
+            "isRetrograde": false,
+            "eclipticPlaneDegrees": 0.77
+        },
+        {
+            "semiMajorAxis": 4514.953,
+            "orbitalPeriodDays": 59799.9,
+            "texture": "tfg:textures/sky/planets/neptune.png",
+            "scaleFactor": 0.4,
+            "name": "Neptune",
+            "diameterKm": 49528,
+            "isRetrograde": false,
+            "eclipticPlaneDegrees": 1.77
+        },
+        {
+            "semiMajorAxis": 5869.656,
+            "orbitalPeriodDays": 90560,
+            "texture": "tfg:textures/sky/planets/pluto.png",
+            "scaleFactor": 5,
+            "name": "Pluto",
+            "diameterKm": 2376,
+            "isRetrograde": false,
+            "eclipticPlaneDegrees": 17.16
+        },
+        {
+            "semiMajorAxis": 73302.956643,
+            "orbitalPeriodDays": 5478630,
+            "texture": "tfg:textures/sky/planets/persephone.png",
+            "scaleFactor": 5,
+            "name": "Persephone",
+            "diameterKm": 50968,
+            "isRetrograde": false,
+            "eclipticPlaneDegrees": 16
+        },
+        {
+            "semiMajorAxis": 14190792.6,
+            "orbitalPeriodDays": 4054186.2,
+            "texture": "tfg:textures/sky/planets/nemesis.png",
+            "scaleFactor": 20,
+            "name": "Nemesis",
+            "diameterKm": 571936,
+            "isRetrograde": false,
+            "eclipticPlaneDegrees": 10
+        },
+        {
+            "semiMajorAxis": 1.0704,
+            "orbitalPeriodDays": 7.15455296,
+            "texture": "tfg:textures/sky/planets/ganymede.png",
+            "scaleFactor": 1,
+            "name": "Ganymede",
+            "diameterKm": 5268.2,
+            "isRetrograde": false,
+            "eclipticPlaneDegrees": 0.2,
+            "isMoon": true,
+            "parentBody": "Jupiter"
+        },
+        {
+            "semiMajorAxis": 1.8827,
+            "orbitalPeriodDays": 16.6890184,
+            "texture": "tfg:textures/sky/planets/callisto.png",
+            "scaleFactor": 1,
+            "name": "Callisto",
+            "diameterKm": 4820.6,
+            "isRetrograde": false,
+            "eclipticPlaneDegrees": 0.192,
+            "isMoon": true,
+            "parentBody": "Jupiter"
+        },
+        {
+            "semiMajorAxis": 0.4217,
+            "orbitalPeriodDays": 1.769137786,
+            "texture": "tfg:textures/sky/planets/io.png",
+            "scaleFactor": 1,
+            "name": "Io",
+            "diameterKm": 3643.2,
+            "isRetrograde": false,
+            "eclipticPlaneDegrees": 0.05,
+            "isMoon": true,
+            "parentBody": "Jupiter"
+        },
+        {
+            "semiMajorAxis": 0.669151,
+            "orbitalPeriodDays": 3.551181,
+            "texture": "tfg:textures/sky/planets/europa.png",
+            "scaleFactor": 1,
+            "name": "Europa",
+            "diameterKm": 3121.6,
+            "isRetrograde": false,
+            "eclipticPlaneDegrees": 0.47,
+            "isMoon": true,
+            "parentBody": "Jupiter"
+        },
+        {
+            "semiMajorAxis": 1.22187,
+            "orbitalPeriodDays": 15.945,
+            "texture": "tfg:textures/sky/planets/titan.png",
+            "scaleFactor": 1,
+            "name": "Titan",
+            "diameterKm": 5149.46,
+            "isRetrograde": true,
+            "eclipticPlaneDegrees": 0.348,
+            "isMoon": true,
+            "parentBody": "Saturn"
+        },
+        {
+            "semiMajorAxis": 1.22187,
+            "orbitalPeriodDays": 5.876854,
+            "texture": "tfg:textures/sky/planets/triton.png",
+            "scaleFactor": 1,
+            "name": "Triton",
+            "diameterKm": 2706.8,
+            "isRetrograde": false,
+            "eclipticPlaneDegrees": 156.885,
+            "isMoon": true,
+            "parentBody": "Neptune"
+        },
+        {
+            "semiMajorAxis": 0.709518,
+            "orbitalPeriodDays": 6.3872304,
+            "texture": "tfg:textures/sky/planets/charon.png",
+            "scaleFactor": 12,
+            "name": "Charon",
+            "diameterKm": 1212.5,
+            "isRetrograde": false,
+            "eclipticPlaneDegrees": 0.08,
+            "isMoon": true,
+            "parentBody": "Pluto"
+        }
+    ],
+    "replace": false
+}

@@ -72,6 +72,25 @@ public final class ServerConfig {
     public final ForgeConfigSpec.IntValue disabledBeneathMiningYLevel;
     public final ForgeConfigSpec.BooleanValue enableHotPlanetMiningRestrictions;
 
+    public final ForgeConfigSpec.BooleanValue enableSolarCalendarBackport;
+    public final ForgeConfigSpec.IntValue defaultCalendarDayLength;
+    public final ForgeConfigSpec.BooleanValue solarCalendarDebugLogging;
+
+    public final ForgeConfigSpec.BooleanValue enableFallingStars;
+    public final ForgeConfigSpec.IntValue fallingStarNightlyMin;
+    public final ForgeConfigSpec.IntValue fallingStarNightlyMax;
+    public final ForgeConfigSpec.IntValue fallingStarClusterChance;
+    public final ForgeConfigSpec.IntValue fallingStarClusterMin;
+    public final ForgeConfigSpec.IntValue fallingStarClusterMax;
+    public final ForgeConfigSpec.IntValue fallingStarBurstChance;
+    public final ForgeConfigSpec.IntValue fallingStarBurstMin;
+    public final ForgeConfigSpec.IntValue fallingStarBurstMax;
+    public final ForgeConfigSpec.IntValue fallingStarShowerChance;
+    public final ForgeConfigSpec.IntValue fallingStarShowerClusterChance;
+    public final ForgeConfigSpec.IntValue fallingStarShowerClusterMin;
+    public final ForgeConfigSpec.IntValue fallingStarShowerClusterMax;
+    public final ForgeConfigSpec.IntValue fallingStarShowerDuration;
+
     ServerConfig(ForgeConfigSpec.Builder builder) {
         builder.push("hang_glider");
 
@@ -175,6 +194,60 @@ public final class ServerConfig {
         enableHotPlanetMiningRestrictions = builder
                 .comment("Enables restrictions on automatic mining machines on hot planets.")
                 .define("enableHotPlanetMiningRestrictions", true);
+
+        builder.pop().push("solar_calendar");
+        enableSolarCalendarBackport = builder
+                .comment("Enables the TFC 1.21 solar calendar backport: configurable day length, realistic sun/moon sky rendering, and updated sleep behavior.")
+                .define("enableSolarCalendarBackport", true);
+        defaultCalendarDayLength = builder
+                .comment("Default real-time minutes per in-game day for newly created worlds. Existing worlds without saved data default to 20 minutes (vanilla).")
+                .defineInRange("defaultCalendarDayLength", 24, 1, 24 * 60);
+        solarCalendarDebugLogging = builder
+                .comment("Logs solar calendar command and time-skip diagnostics to latest.log.")
+                .define("solarCalendarDebugLogging", true);
+
+        enableFallingStars = builder
+                .comment("Enables falling stars (meteors) at night when the solar calendar backport is active.")
+                .define("enableFallingStars", true);
+        fallingStarNightlyMin = builder
+                .comment("Minimum sporadic meteors scheduled per clear night.")
+                .defineInRange("fallingStarNightlyMin", 6, 1, 100);
+        fallingStarNightlyMax = builder
+                .comment("Maximum sporadic meteors scheduled per clear night.")
+                .defineInRange("fallingStarNightlyMax", 14, 1, 100);
+        fallingStarClusterChance = builder
+                .comment("1 in N chance per tick for a sporadic meteor cluster. 0 disables.")
+                .defineInRange("fallingStarClusterChance", 12000, 0, Integer.MAX_VALUE);
+        fallingStarClusterMin = builder
+                .comment("Minimum meteors in a sporadic cluster.")
+                .defineInRange("fallingStarClusterMin", 3, 1, 100);
+        fallingStarClusterMax = builder
+                .comment("Maximum meteors in a sporadic cluster.")
+                .defineInRange("fallingStarClusterMax", 6, 1, 100);
+        fallingStarBurstChance = builder
+                .comment("1 in N chance per tick for a sporadic meteor burst. 0 disables.")
+                .defineInRange("fallingStarBurstChance", 9000, 0, Integer.MAX_VALUE);
+        fallingStarBurstMin = builder
+                .comment("Minimum meteors in a sporadic burst.")
+                .defineInRange("fallingStarBurstMin", 4, 1, 100);
+        fallingStarBurstMax = builder
+                .comment("Maximum meteors in a sporadic burst.")
+                .defineInRange("fallingStarBurstMax", 20, 1, 100);
+        fallingStarShowerChance = builder
+                .comment("1 in N chance per tick to spawn a meteor during an active shower. 0 disables.")
+                .defineInRange("fallingStarShowerChance", 55, 0, Integer.MAX_VALUE);
+        fallingStarShowerClusterChance = builder
+                .comment("1 in N chance per tick for a meteor shower cluster. 0 disables.")
+                .defineInRange("fallingStarShowerClusterChance", 900, 0, Integer.MAX_VALUE);
+        fallingStarShowerClusterMin = builder
+                .comment("Minimum meteors in a shower cluster.")
+                .defineInRange("fallingStarShowerClusterMin", 5, 1, 100);
+        fallingStarShowerClusterMax = builder
+                .comment("Maximum meteors in a shower cluster.")
+                .defineInRange("fallingStarShowerClusterMax", 20, 1, 100);
+        fallingStarShowerDuration = builder
+                .comment("Duration of a meteor shower in ticks.")
+                .defineInRange("fallingStarShowerDuration", 4800, 20, 24000);
 
         builder.pop().push("chameleon_spray_can");
         CHAMELEON_SPRAY_CAN_CAPACITY = builder

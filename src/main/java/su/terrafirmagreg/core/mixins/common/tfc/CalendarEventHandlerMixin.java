@@ -6,19 +6,20 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.dries007.tfc.util.calendar.CalendarEventHandler;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
+
+import su.terrafirmagreg.core.utils.CalendarSleepHelper;
 
 @Mixin(value = CalendarEventHandler.class, remap = false)
 public abstract class CalendarEventHandlerMixin {
 
     /**
-     * TFC 3 reads {@code getDayTime()} from the sleeping dimension, which breaks calendar sync in Nether/Beneath.
-     * {@link su.terrafirmagreg.core.utils.CalendarSleepHelper} handles those dimensions instead.
+     * TFC 3 {@code onPlayerWakeUp} reads {@code getDayTime()} from the sleeping dimension.
+     * {@link CalendarSleepHelper} replaces that path for solar backport and non-overworld legacy sleep.
      */
     @Inject(method = "onPlayerWakeUp", at = @At("HEAD"), cancellable = true, remap = false)
-    private static void tfg$skipNonOverworldSleep(PlayerWakeUpEvent event, CallbackInfo ci) {
-        if (!event.getEntity().getCommandSenderWorld().dimension().equals(Level.OVERWORLD)) {
+    private static void tfg$onPlayerWakeUp(PlayerWakeUpEvent event, CallbackInfo ci) {
+        if (CalendarSleepHelper.shouldCancelPlayerWakeUp(event)) {
             ci.cancel();
         }
     }

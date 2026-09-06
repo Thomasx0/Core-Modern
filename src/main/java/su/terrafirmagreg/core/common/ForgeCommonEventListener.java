@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.GTCEu;
 
 import net.dries007.tfc.common.blocks.rock.Ore;
 import net.dries007.tfc.common.items.TFCItems;
+import net.dries007.tfc.config.TFCConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.registries.Registries;
@@ -29,6 +30,7 @@ import net.minecraft.world.level.levelgen.XoroshiroRandomSource;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -46,6 +48,8 @@ import su.terrafirmagreg.core.common.data.items.TFGItems;
 import su.terrafirmagreg.core.common.data.tfgt.TFGMultiMachines;
 import su.terrafirmagreg.core.common.food.nutrient.NutrientEffectsHandler;
 import su.terrafirmagreg.core.common.perf.SupportCache;
+import su.terrafirmagreg.core.compat.tfc.solar.SolarCalendarBackport;
+import su.terrafirmagreg.core.compat.tfc.solar.meteor.FallingStarServerEvents;
 import su.terrafirmagreg.core.network.TFGNetworkHandler;
 import su.terrafirmagreg.core.network.packet.FuelSyncPacket;
 import su.terrafirmagreg.core.utils.CustomSpawnHelper;
@@ -143,6 +147,16 @@ public final class ForgeCommonEventListener {
     }
 
     @SubscribeEvent
+    public static void onLevelTick(TickEvent.LevelTickEvent event) {
+        if (event.phase != TickEvent.Phase.END || event.level.isClientSide()) {
+            return;
+        }
+        if (event.level instanceof ServerLevel serverLevel) {
+            FallingStarServerEvents.onWorldTick(serverLevel);
+        }
+    }
+
+    @SubscribeEvent
     public static void onLevelUnload(LevelEvent.Unload event) {
         if (event.getLevel() instanceof Level level) {
             SupportCache.clearLevel(level);
@@ -152,6 +166,14 @@ public final class ForgeCommonEventListener {
     @SubscribeEvent
     public static void onAddReloadListeners(AddReloadListenerEvent event) {
         event.addListener(BedrockFluidSpoutLoader.INSTANCE);
+    }
+
+    @SubscribeEvent
+    public static void onSolarCalendarLevelLoad(LevelEvent.Load event) {
+        if (!SolarCalendarBackport.isEnabled()) {
+            return;
+        }
+        TFCConfig.SERVER.enableCalendarSensitiveMoonPhases.set(false);
     }
 
     @SubscribeEvent

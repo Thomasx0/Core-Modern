@@ -43,10 +43,11 @@ public abstract class ServerLevelMixin {
     }
 
     /**
-     * Backport of TFC 4 {@code ServerLevelMixin#onWakeUpAllPlayers}: advance the TFC calendar when sleeping
-     * outside the Overworld (Nether/Beneath, planets, etc.).
+     * Solar backport (all dimensions) and legacy non-overworld sleep share one calendar handler.
+     *
+     * @see CalendarSleepHelper#onPlayersFinishedSleeping
      */
-    @Inject(method = "wakeUpAllPlayers", at = @At("TAIL"))
+    @Inject(method = "wakeUpAllPlayers", at = @At("HEAD"))
     private void tfg$onWakeUpAllPlayers(CallbackInfo ci) {
         CalendarSleepHelper.onPlayersFinishedSleeping((ServerLevel) (Object) this);
     }
